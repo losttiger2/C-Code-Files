@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Introduction to HTML5</title>
+	<meta name="description" content="home,services,contact,help">
+</head>
+<body>
+	<header style="display:block;border-top:1px dashed;
+	border-bottom:1px dashed;border-color:darkred;font-family:calibri;
+	color:darkblue;text-align:center">
+h1>Basics of HTML5</h1>
+</header>

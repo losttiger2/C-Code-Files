@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<h1><center>LOGIN FORM</center></h1>
+	</head>
+<body style="background-color:SpringGreen ">
+<style>
+	div
+	{
+		align:center;
+		color:black;
+		border:4px solid;
+		border-color:black;
+		padding:30px;
+		height:120px;
+		width:350px;
+		margin-left:500px;
+		background-color:PaleTurquoise ;
+	}
+</style>
+<div>
+
+	USERNAME:&nbsp&nbsp<input type="text" id="username"></br></br>
+	PASSWORD:&nbsp&nbsp<input type="number" id="password"></br></br>
+	<center><input type="button" value="LOGIN" onclick="val()"></center>
+</div>
+<script type="text/javascript">
+function val()
+{
+	if(document.getElementById("username").value=="XYZ" && document.getElementById("password").value=="1213")
+	{
+		alert("Login Successfully!!");
+		window.location="Profle.html";
+	}
+	else
+	{
+		alert("Login Failed!!");
+	}
+}
+</script>
+</body>
+</html>

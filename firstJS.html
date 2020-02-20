@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<h1>Calculations</h1>
+	</head>
+<body>
+<style>
+	div
+	{
+		align:center;
+		color:black;
+		border:2px solid;
+		border-color:black;
+		padding:20px;
+		height:200px;
+		width:300px;
+		margin-left:500px;
+	}
+</style>
+<div>
+	First No.:<input type="number" id="num1"></br>
+	Second No.:<input type="number" id="num2"></br>
+	Operation:
+	<select id="ops" onchange="opts()">
+		<option value="add">Addition</option>
+		<option value="sub">Substraction</option>
+		<option value="mul">Multiplication</option>
+		<option value="div">Division</option>
+	</select>
+<input type="button" onclick="calc()" value="calculate"/>
+</div>
+
+<script language="javascript">
+	var c,a,b,res;
+	a=parseInt(document.getElementById("num1").value);
+	b=parseInt(document.getElementById("num2").value);
+
+function opts()
+{
+	c=document.getElementById('ops').value;	
+		
+}
+
+function calc()
+{
+	if(c=='add')
+		{
+			res=parseInt(a)+parseInt(b);
+		}
+	else if(c=='sub')
+		{
+			res=parseInt(a)-parseInt(b);
+		}
+	else if(c=='mul')
+		{
+			res=parseInt(a)*parseInt(b);
+		}
+	else if(c=='div')
+		{
+			res=parseInt(a)/parseInt(b);
+		}
+	alert("The output is " +res);
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Adding An External Script</title>
+	<script language="javascript" src="fun.js"></script>
+	<script language="javascript">
+		Greet();
+	</script>
+</head>
+<body>
+	<center><input type="button" value="Click Me" onclick="printMsg()">
+	<br /><br />
+	<button onclick="square()">show result</button>
+	<p id="result"></p>
+	<button onclick="showDate()">show date</button>
+	<p id="display"></p></br>
+</center>
+	<script language="javascript">
+		var i,j;	
+       for (i = 1; i <= 10;i++)
+       {
+          for (j= 1; j <= i;j++)
+           {
+             document.write(j);
+           }
+        document.write(" <br>");
+       }
+</script>
+<br>
+	<script>
+	for (i = 1; i <= 10;i++)
+       {
+          for (j= 1; j <= i;j++)
+           {
+             document.write(i);
+           }
+        document.write(" <br>");
+       }
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Profile</title>
+</head>
+<body>
+<h1><center>RESUME</center></h1>
+<div style="position:absolute;left:500px;top:500;border:3px solid black;width:400px;height:400px;Background-color:powderblue;">
+</div>

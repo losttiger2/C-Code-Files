@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>REGISTRATION Form</title>
+</head>
+<body>
+<div style="Position:absolute;left:250px;top:120px;border:2px solid black;">
+<First Name:</br><input type="text"></br></br>
+<Last Name:</br><input type="text"></br></br>
+<Contact No:</br><input type="number"></br></br>
+<Mail_ID:</br><input type="text"></br></br> 
+</div>
+<a href="savedetails.html">Register</a>
+</body>
+</html>
