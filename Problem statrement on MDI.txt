@@ -1,0 +1,38 @@
+Q.Design an MDI Application for Library Management System.
+
+The library maintains types of books such as Text Books,Magazines,Mannuals on different categories such,
+"Science & Technology","Computer Books","Finance Books".The system should keep track the book issues and returns.
+The system should maintain categories of people such walk-In and Members.
+
+The book issues should be maintained in the following form such as
+
+1.Book Category		- Science & Technology,Computer,Finance Books,etc
+
+2.Book Title		-
+
+3.Book Type		- Text books, magzines,mannuals
+
+4.Date of issue		-
+
+5.Date of return	- 10 days from the date of issue
+
+6.Actual return date	-Beyond the date of return of the book
+
+7.Penalty		-Returning on 11th day is accepted,if it beyond penalty should be calculated included the 11th day.
+
+calculation details mentioned below..
+
+For walk-in individuals - Penalty is rs.15/day
+
+form Members 		- Penalty is 18% higher than the walk-in individuals.
+
+if the person is registered member ,they should pay a caution deposit of rs.300, 
+which will be refundable when if the member closes his membership.
+for walk-in individuals.
+
+You need to design a system to maintain the book issue and book return and 
+find out which person has been charged penaltyand find out the payable amount
+ of penalty for the delayed book return. 
+
+
+

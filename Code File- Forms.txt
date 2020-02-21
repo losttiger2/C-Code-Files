@@ -1,0 +1,224 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace RegistrationForm
+{
+    public partial class Form1 : Form
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        string query,query1,query2;
+        SqlDataReader dreader;
+        SqlDataAdapter ADP;
+        DataSet ds;
+        int i;
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+       
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            con = new SqlConnection("server=BLT207\\SQLEXPRESS;Database=students;Integrated security=true");
+            con.Open();
+            MessageBox.Show("Connection Established..");
+
+            ADP = new SqlDataAdapter("select * from students_info", con);
+            ds = new DataSet();
+            ADP.Fill(ds, "students");
+        }
+
+        private void btnins_Click(object sender, EventArgs e)  //insert button
+        {
+            query = "insert into students_info values('" + Sname.Text + "'," + snum.Text + ",'" + Cname.Text + "'," + corfees.Text + "," + agebox.Text + ",'" + txtgen.Text + "')";
+            cmd = new SqlCommand(query, con);
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Data Inserted!!");
+        }
+
+        private void btnnew_Click(object sender, EventArgs e)
+        {
+            Sname.Text = "";
+            snum.Text = "";
+            Cname.Text = "";
+            corfees.Text = "";
+            agebox.Text = "";
+            txtgen.Text = "";
+        }
+
+        private void btnext_Click(object sender, EventArgs e) //exit button
+        {
+            if (MessageBox.Show("Are you sure you want to Exit ?", "Exit Application", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                con.Close();
+                con = null;
+                MessageBox.Show("No Connection is open", "Database Connection");
+                Application.Exit();
+            }
+        }
+
+        private void btnsrch_Click(object sender, EventArgs e) //search button
+        {
+            cmd = new SqlCommand("select * from students_info where student_no=" + snum.Text + "",con);
+            try
+            {
+                dreader = cmd.ExecuteReader();
+                if(dreader.Read())
+                {
+                    Sname.Text = dreader[0].ToString();
+                    snum.Text = dreader[1].ToString();
+                    Cname.Text = dreader[2].ToString();
+                    corfees.Text = dreader[3].ToString();
+                    agebox.Text = dreader[4].ToString();
+                    txtgen.Text = dreader[5].ToString();
+                }
+                else
+                {
+                    MessageBox.Show("No Record!!");
+                }
+                dreader.Close();
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Exception Thrown");
+            }
+            
+        }
+
+        private void btnupd_Click(object sender, EventArgs e) //update button
+        {
+            query2="update students_info set student_name='" + Sname.Text + "',course='"+ Cname.Text + "',course_fees='" + corfees.Text + "',age='" + agebox.Text + "',gender='" + txtgen.Text + "'where student_no='"+snum.Text+"'";
+            cmd = new SqlCommand(query2, con);
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Data Updated");
+        }
+
+        private void btnbrws_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog clg = new OpenFileDialog();
+            clg.ShowDialog();
+            if (clg.ShowDialog() == DialogResult.OK)
+            {
+                string fileName;
+                fileName = clg.FileName;
+                MessageBox.Show(fileName);
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox1.Image = Image.FromFile(open.FileName);
+            }
+        }
+
+        private void firstbtn_Click(object sender, EventArgs e)
+        {
+            if(ds.Tables[0].Rows.Count>0)
+            {
+                i = 0;
+                Sname.Text = ds.Tables[0].Rows[i]["student_name"].ToString();
+                snum.Text = ds.Tables[0].Rows[i]["student_no"].ToString();
+                Cname.Text = ds.Tables[0].Rows[i]["course"].ToString();
+                corfees.Text = ds.Tables[0].Rows[i]["course_fees"].ToString();
+                agebox.Text= ds.Tables[0].Rows[i]["age"].ToString();
+                txtgen.Text= ds.Tables[0].Rows[i]["gender"].ToString();
+            }
+        }
+
+        private void previousbtn_Click(object sender, EventArgs e)
+        {
+         
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                i--;
+                Sname.Text = ds.Tables[0].Rows[i]["student_name"].ToString();
+                snum.Text = ds.Tables[0].Rows[i]["student_no"].ToString();
+                Cname.Text = ds.Tables[0].Rows[i]["course"].ToString();
+                corfees.Text = ds.Tables[0].Rows[i]["course_fees"].ToString();
+                agebox.Text = ds.Tables[0].Rows[i]["age"].ToString();
+                txtgen.Text = ds.Tables[0].Rows[i]["gender"].ToString();
+            }
+
+        }
+
+        private void nextbtn_Click(object sender, EventArgs e)
+        {
+            if (i < ds.Tables[0].Rows.Count - 1)
+            {
+                i++;
+                Sname.Text = ds.Tables[0].Rows[i]["student_name"].ToString();
+                snum.Text = ds.Tables[0].Rows[i]["student_no"].ToString();
+                Cname.Text = ds.Tables[0].Rows[i]["course"].ToString();
+                corfees.Text = ds.Tables[0].Rows[i]["course_fees"].ToString();
+                agebox.Text = ds.Tables[0].Rows[i]["age"].ToString();
+                txtgen.Text = ds.Tables[0].Rows[i]["gender"].ToString();
+            }
+        }
+
+        private void lastbtn_Click(object sender, EventArgs e)
+        {
+            i = ds.Tables[0].Rows.Count;
+            
+                i--;
+                Sname.Text = ds.Tables[0].Rows[i]["student_name"].ToString();
+                snum.Text = ds.Tables[0].Rows[i]["student_no"].ToString();
+                Cname.Text = ds.Tables[0].Rows[i]["course"].ToString();
+                corfees.Text = ds.Tables[0].Rows[i]["course_fees"].ToString();
+                agebox.Text = ds.Tables[0].Rows[i]["age"].ToString();
+                txtgen.Text = ds.Tables[0].Rows[i]["gender"].ToString();
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form Gridview = new Form();
+            DataGridView view = new DataGridView();
+
+            ADP = new SqlDataAdapter("select * from students_info",con);
+            DataSet Grdset = new DataSet();
+            ADP.Fill(Grdset, "students");
+
+            view.DataSource = Grdset;
+            view.DataMember = "students";
+            view.Location = new Point(100, 100);
+            view.Height = 553;
+            view.Width = 453;
+            Gridview.Controls.Add(view);
+
+            Gridview.StartPosition = FormStartPosition.CenterScreen;
+            Gridview.Height = 400;
+            Gridview.Width = 400;
+            Gridview.Show();
+        }
+
+        private void btnsub_Click(object sender, EventArgs e)  //Submit button
+        {
+            query = "insert into students_info values('" + Sname.Text + "'," + snum.Text + ",'" + Cname.Text + "'," + corfees.Text + "," + agebox.Text + ",'" + txtgen.Text + "')";
+            cmd = new SqlCommand(query, con);
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Data Submitted!!");
+        }
+
+        private void btndel_Click(object sender, EventArgs e) //delete button
+        {
+            query1 = "Delete from students_info where student_no='" + snum.Text + "'";
+            cmd = new SqlCommand(query1, con);
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Data Deleted");
+        }
+    }    
+ }
+

@@ -1,0 +1,73 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+
+namespace EntityCodeFirst
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ProductDBContext context = new ProductDBContext();
+            var product1 = context.Products;
+            product1.Add(new product          //Inserting data using add function in main
+            {
+                ProductName = "Coffee",
+                Price = 40
+            });
+            context.SaveChanges();
+        }
+    }
+
+    public class ProductDBContext : DbContext
+    {
+        public ProductDBContext() : base("ProductDBContext")
+        {
+            
+
+        }
+        public DbSet<product> Products { get; set; }
+    }
+
+    public class product
+    {
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public double Price { get; set; }
+        
+    }
+}
+
+
+
+ <connectionStrings>
+    <add name="ProductDBContext" connectionString="Data Source=BLT207\SQLEXPRESS;Initial Catalog=ProductsDB;Integrated Security=True;" providerName="System.Data.SqlClient"></add>
+  </connectionStrings>
+
+
+
+namespace EntityCodeFirst.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class AddFirstProduct : DbMigration
+    {
+        public override void Up()
+        {
+            Sql("insert into Products values('Milk',20.00)");      //Insering data by Adding migration
+            Sql("insert into Products values('Coke',40.00)");
+            Sql("insert into Products values('Mirinda',50.00)");
+        }
+        
+        public override void Down()
+        {
+           
+        }
+    }
+}

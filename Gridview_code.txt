@@ -1,0 +1,188 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Windows.Forms;
+
+namespace Student_course
+{
+    public partial class Form1 : Form
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        string query,st;
+        SqlDataReader dreader;
+        SqlDataAdapter ADP;
+        DataSet ds;
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void txtstn_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            con = new SqlConnection("server=BLT207\\SQLEXPRESS;Database=NEW_STUDENTS;Integrated Security=true");
+            con.Open();
+            MessageBox.Show("Connection Established!!!");
+
+            ADP = new SqlDataAdapter("select * from info", con);
+            ds = new DataSet();
+            ADP.Fill(ds, "NEW_STUDENTS");
+            con.Close();
+        }
+
+        private void btnnew_Click(object sender, EventArgs e) //new button
+        {
+            txtstn.Text = "";
+            txtstdname.Text = "";
+            cmbcor.Text = "";
+
+        }
+
+        private void btnext_Click(object sender, EventArgs e) //exit button
+        { 
+            if (MessageBox.Show("Are you sure you want to Exit ?", "Exit Application", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                con.Close();
+                con = null;
+                MessageBox.Show("No Connection is open", "Database Connection");
+                Application.Exit();
+            }
+        }
+
+        private void btndel_Click(object sender, EventArgs e)  //delete button
+        {
+            query = "Delete from info where student_no='" + txtstn.Text + "'";
+            cmd = new SqlCommand(query, con);
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Data Deleted");
+        }
+
+        private void btnins_Click(object sender, EventArgs e)  //INSERT BUTTON
+        {
+            try
+            {
+                query = "insert into info values('" + txtstn.Text + "','" + txtstdname.Text + "','" + cmbcor.Text + "','" + txtdoj.Value.Date + "')";
+                cmd = new SqlCommand(query, con);
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Inserted!!");
+            }
+            catch(System.Data.SqlClient.SqlException)
+            {
+                MessageBox.Show("Data Already Exist!!");
+            }
+        }
+
+        private void btnupd_Click(object sender, EventArgs e)  //UPDATE BUTTON
+        {
+            query = "update info set Student_name='" + txtstdname.Text + "',Course='" + cmbcor.Text + "',Doj='"+txtdoj.Value.Date+"'where student_no=" + txtstn.Text + "";
+            cmd = new SqlCommand(query, con);
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Data Updated");
+        }
+
+        private void btnsrch_Click(object sender, EventArgs e)
+        {
+            cmd = new SqlCommand("select * from info where student_no=" + txtstn.Text + "", con);
+            try
+            {
+                dreader = cmd.ExecuteReader();
+                if (dreader.Read())
+                {
+                    txtstdname.Text = dreader[1].ToString();
+                    cmbcor.Text = dreader[2].ToString();
+                    txtdoj.Text = dreader[3].ToString();
+                }
+                else
+                {
+                    MessageBox.Show("No Record!!");
+                }
+                dreader.Close();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Exception Thrown");
+            }
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Form Gridview = new Form();
+            DataGridView view = new DataGridView();
+
+            ADP = new SqlDataAdapter("select * from info", con);
+            DataSet Grdset = new DataSet();
+            ADP.Fill(Grdset, "NEW_STUDENTS");
+
+            view.DataSource = Grdset;
+            view.DataMember = "NEW_STUDENTS";
+
+            view.Location = new Point(100, 100);
+            Gridview.Controls.Add(view);
+
+            Gridview.StartPosition = FormStartPosition.CenterScreen;
+            Gridview.Height = 100;
+            Gridview.Width = 100;
+            Gridview.Show();
+        }
+
+        private void cmbfilt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string str = cmbfilt.Text;
+            MessageBox.Show(str);
+
+            if(str=="ALL")
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter("select * from info", con);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                dataGridView1.DataSource = dt;
+                con.Close();
+            }
+            else if(str=="SORT BY COURSE")
+            {
+                textBox1.Visible = true;
+
+            }
+            else if(str=="SORT BY DATE OF JOINING")
+            {
+                bydate.Visible = true;
+            }
+            
+        }
+
+        private void bydate_ValueChanged(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlDataAdapter sda = new SqlDataAdapter("select * from info where Doj='" + bydate.Value.Date + "'", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            dataGridView1.DataSource = dt;
+            con.Close();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            st = textBox1.Text;
+            con.Open();
+            SqlDataAdapter sda = new SqlDataAdapter("select * from info where Course='" + st + "'", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            dataGridView1.DataSource = dt;
+            con.Close();
+        }
+    }
+}
